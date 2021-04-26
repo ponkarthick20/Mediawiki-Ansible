@@ -1,0 +1,18 @@
+---
+- hosts: slave1
+  tasks:
+  - name: Installation In progress
+    become: yes
+    shell: |
+      wget https://www.apachefriends.org/xampp-files/7.3.27/xampp-linux-x64-7.3.27-1-installer.run
+      chmod 755 xampp-linux-x64-7.3.27-1-installer.run
+      Y | sudo ./xampp-linux-x64-7.3.27-1-installer.run
+      cd /home/centos
+      wget https://releases.wikimedia.org/mediawiki/1.31/mediawiki-1.31.14.tar.gz
+      cd /opt/lampp/htdocs/
+      tar -xzf /home/centos/mediawiki-1.31.14.tar.gz
+      ln -s mediawiki-1.31.14/ mediawiki
+      restorecon -FR /opt/lampp/htdocs/mediawiki-1.31.14/
+      restorecon -FR /opt/lampp/htdocs/mediawiki
+      /opt/lampp/lampp start
+      echo "Installation completed"
